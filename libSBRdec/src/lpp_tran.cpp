@@ -118,6 +118,7 @@ amm-info@iis.fraunhofer.de
   \sa lppTransposer(), main_audio.cpp, sbr_scale.h, \ref documentationOverview
 */
 
+
 #include "lpp_tran.h"
 
 #include "sbr_ram.h"
@@ -295,7 +296,6 @@ void lppTransposer(
   int ovLowBandShift;
   int lowBandShift;
   /*  int ovHighBandShift;*/
-  int targetStopBand;
 
   alphai[0] = FL2FXCONST_SGL(0.0f);
   alphai[1] = FL2FXCONST_SGL(0.0f);
@@ -311,25 +311,29 @@ void lppTransposer(
 
   autoCorrLength = pSettings->nCols + pSettings->overlap;
 
-  /* Set upper subbands to zero:
-     This is required in case that the patches do not cover the complete
-     highband (because the last patch would be too short). Possible
-     optimization: Clearing bands up to usb would be sufficient here. */
-  targetStopBand = patchParam[pSettings->noOfPatches - 1].targetStartBand +
-                   patchParam[pSettings->noOfPatches - 1].numBandsInPatch;
+  if (pSettings->noOfPatches > 0) {
+    /* Set upper subbands to zero:
+       This is required in case that the patches do not cover the complete
+       highband (because the last patch would be too short). Possible
+       optimization: Clearing bands up to usb would be sufficient here. */
+    int targetStopBand =
+        patchParam[pSettings->noOfPatches - 1].targetStartBand +
+        patchParam[pSettings->noOfPatches - 1].numBandsInPatch;
 
-  int memSize = ((64) - targetStopBand) * sizeof(FIXP_DBL);
+    int memSize = ((64) - targetStopBand) * sizeof(FIXP_DBL);
 
-  if (!useLP) {
-    for (i = startSample; i < stopSampleClear; i++) {
-      FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
-      FDKmemclear(&qmfBufferImag[i][targetStopBand], memSize);
-    }
-  } else {
-    for (i = startSample; i < stopSampleClear; i++) {
-      FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
+    if (!useLP) {
+      for (i = startSample; i < stopSampleClear; i++) {
+        FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
+        FDKmemclear(&qmfBufferImag[i][targetStopBand], memSize);
+      }
+    } else {
+      for (i = startSample; i < stopSampleClear; i++) {
+        FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
+      }
     }
   }
+
 
   /* init bwIndex for each patch */
   FDKmemclear(bwIndex, sizeof(bwIndex));
@@ -874,7 +878,6 @@ void lppTransposerHBE(
   int ovLowBandShift;
   int lowBandShift;
   /*  int ovHighBandShift;*/
-  int targetStopBand;
 
   alphai[0] = FL2FXCONST_SGL(0.0f);
   alphai[1] = FL2FXCONST_SGL(0.0f);
@@ -889,19 +892,23 @@ void lppTransposerHBE(
 
   autoCorrLength = pSettings->nCols + pSettings->overlap;
 
-  /* Set upper subbands to zero:
-     This is required in case that the patches do not cover the complete
-     highband (because the last patch would be too short). Possible
-     optimization: Clearing bands up to usb would be sufficient here. */
-  targetStopBand = patchParam[pSettings->noOfPatches - 1].targetStartBand +
-                   patchParam[pSettings->noOfPatches - 1].numBandsInPatch;
+  if (pSettings->noOfPatches > 0) {
+    /* Set upper subbands to zero:
+       This is required in case that the patches do not cover the complete
+       highband (because the last patch would be too short). Possible
+       optimization: Clearing bands up to usb would be sufficient here. */
+    int targetStopBand =
+        patchParam[pSettings->noOfPatches - 1].targetStartBand +
+        patchParam[pSettings->noOfPatches - 1].numBandsInPatch;
 
-  int memSize = ((64) - targetStopBand) * sizeof(FIXP_DBL);
+    int memSize = ((64) - targetStopBand) * sizeof(FIXP_DBL);
 
-  for (i = startSample; i < stopSampleClear; i++) {
-    FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
-    FDKmemclear(&qmfBufferImag[i][targetStopBand], memSize);
+    for (i = startSample; i < stopSampleClear; i++) {
+      FDKmemclear(&qmfBufferReal[i][targetStopBand], memSize);
+      FDKmemclear(&qmfBufferImag[i][targetStopBand], memSize);
+    }
   }
+
 
   /*
   Calc common low band scale factor
