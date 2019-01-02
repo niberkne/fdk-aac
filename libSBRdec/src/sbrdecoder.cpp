@@ -1150,6 +1150,10 @@ SBR_ERROR sbrDecoder_Parse(HANDLE_SBRDECODER self, HANDLE_FDK_BITSTREAM hBs,
 
   int lastSlot, lastHdrSlot = 0, thisHdrSlot = 0;
 
+  if (*count <= 0) {
+    setFrameErrorFlag(self->pSbrElement[elementIndex], FRAME_ERROR);
+    return SBRDEC_OK;
+  }
   /* SBR sanity checks */
   if (self == NULL) {
     errorStatus = SBRDEC_NOT_INITIALIZED;
@@ -1677,6 +1681,9 @@ static SBR_ERROR sbrDecoder_DecodeElement(
   /* reset */
   if (hSbrHeader->status & SBRDEC_HDR_STAT_RESET) {
     int ch;
+    int applySbrProc = (hSbrHeader->syncState == SBR_ACTIVE ||
+                        (hSbrHeader->frameErrorFlag == 0 &&
+                         hSbrHeader->syncState == SBR_HEADER));
     for (ch = 0; ch < numElementChannels; ch++) {
       SBR_ERROR errorStatusTmp = SBRDEC_OK;
 
@@ -1688,7 +1695,9 @@ static SBR_ERROR sbrDecoder_DecodeElement(
         hSbrHeader->syncState = UPSAMPLING;
       }
     }
+    if (applySbrProc) {
     hSbrHeader->status &= ~SBRDEC_HDR_STAT_RESET;
+    }
   }
 
   /* decoding */
