@@ -99,7 +99,7 @@ amm-info@iis.fraunhofer.de
    Description:
 
 *******************************************************************************/
-
+#include <stdio.h>
 #include "tpdec_lib.h"
 #include "tp_data.h"
 
@@ -2089,6 +2089,7 @@ TRANSPORTDEC_ERROR AudioSpecificConfig_Parse(
   UINT ascStartAnchor = FDKgetValidBits(bs);
   int frameLengthFlag = -1;
 
+  fprintf(stdout,"Default Transport Fmt\n");
   AudioSpecificConfig_Init(self);
 
   self->configMode = configMode;
@@ -2400,6 +2401,7 @@ TRANSPORTDEC_ERROR DrmRawSdcAudioConfig_Parse(
     CSTpCallBacks *cb, /* use cb == NULL to signal config check only mode */
     UCHAR configMode, UCHAR configChanged) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
+  fprintf(stdout,"TT_DRM Transport Fmt\n");
 
   AudioSpecificConfig_Init(self);
 
