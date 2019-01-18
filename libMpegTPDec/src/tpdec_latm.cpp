@@ -99,7 +99,7 @@ amm-info@iis.fraunhofer.de
    Description:
 
 *******************************************************************************/
-
+#include <stdio.h>
 #include "tpdec_latm.h"
 
 #include "FDK_bitstream.h"
@@ -286,6 +286,8 @@ TRANSPORTDEC_ERROR CLatmDemux_ReadStreamMuxConfig(
     int *pfConfigFound, UCHAR configMode, UCHAR configChanged) {
   CSAudioSpecificConfig ascDummy; /* the actual config is needed for flushing,
                                      after that new config can be parsed */
+ 
+  fprintf(stdout,"Enter CLatmDemux_ReadStreamMuxConfig\n");
   CSAudioSpecificConfig *pAscDummy;
   pAscDummy = &ascDummy;
   pLatmDemux->usacExplicitCfgChanged = 0;
