@@ -99,7 +99,7 @@ amm-info@iis.fraunhofer.de
    Description:
 
 *******************************************************************************/
-
+#include <stdio.h>
 #include "aacdecoder_lib.h"
 
 #include "aac_ram.h"
@@ -196,6 +196,7 @@ LINKSPEC_CPP AAC_DECODER_ERROR aacDecoder_ConfigRaw(HANDLE_AACDECODER self,
   TRANSPORTDEC_ERROR errTp;
   UINT layer, nrOfLayers = self->nrOfLayers;
 
+  fprintf(stdout,"Enter aacDecoder_ConfigRaw\n");
   for (layer = 0; layer < nrOfLayers; layer++) {
     if (length[layer] > 0) {
       errTp = transportDec_OutOfBandConfig(self->hInput, conf[layer],
