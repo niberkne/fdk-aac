@@ -467,6 +467,7 @@ AAC_DECODER_ERROR CChannelElement_Read(
   ch = 0;
   decision_bit = 0;
   do {
+    fprintf(stdout,"Channel Read Element ID = %i\n",list->id[i]);
     switch (list->id[i]) {
       case element_instance_tag:
         pAacDecoderChannelInfo[0]->ElementInstanceTag = FDKreadBits(hBs, 4);
