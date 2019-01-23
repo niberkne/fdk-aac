@@ -151,7 +151,7 @@ amm-info@iis.fraunhofer.de
   from the FDK Tools
 
 */
-
+#include <stdio.h>
 #include "aacdecoder.h"
 
 #include "aac_rom.h"
@@ -2384,6 +2384,8 @@ LINKSPEC_CPP AAC_DECODER_ERROR CAacDecoder_DecodeFrame(
     const INT timeDataSize, const int timeDataChannelOffset) {
   AAC_DECODER_ERROR ErrorStatus = AAC_DEC_OK;
 
+  fprintf(stdout,"CAacDecoder_DecodeFrame\n");
+ 
   CProgramConfig *pce;
   HANDLE_FDK_BITSTREAM bs = transportDec_GetBitstream(self->hInput, 0);
 
