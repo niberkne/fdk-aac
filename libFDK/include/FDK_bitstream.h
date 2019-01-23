@@ -262,6 +262,7 @@ FDK_INLINE UINT FDKread2Bits(HANDLE_FDK_BITSTREAM hBitStream) {
   }
 
   hBitStream->BitsInCache -= 2;
+  fprintf(stdout,"FDKread2Bits = %i\n",(bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) & 0x3);
 
   return (bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) & 0x3;
 }
