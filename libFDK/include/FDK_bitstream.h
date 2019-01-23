@@ -595,6 +595,7 @@ FDK_INLINE void FDKpushBiDirectional(HANDLE_FDK_BITSTREAM hBitStream,
  */
 FDK_INLINE UINT FDKgetValidBits(HANDLE_FDK_BITSTREAM hBitStream) {
   FDKsyncCache(hBitStream);
+  fprintf(stdout,"FDKgetValidBits = %i\n", &hBitStream->hBitBuf);
   return FDK_getValidBits(&hBitStream->hBitBuf);
 }
 
