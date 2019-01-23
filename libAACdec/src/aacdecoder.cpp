@@ -814,6 +814,7 @@ static AAC_DECODER_ERROR CAacDecoder_ExtPayloadParse(
   EXT_PAYLOAD_TYPE extension_type;
   int bytes = (*count) >> 3;
   int crcFlag = 0;
+  fprintf(stdout,"CAacDecoder_ExtPayloadParse\n");
 
   if (*count < 4) {
     return AAC_DEC_PARSE_ERROR;
@@ -1104,6 +1105,7 @@ static AAC_DECODER_ERROR aacDecoder_ParseExplicitMpsAndSbr(
     const int element_index, const int el_cnt[]) {
   AAC_DECODER_ERROR ErrorStatus = AAC_DEC_OK;
   INT bitCnt = 0;
+  fprintf(stdout,"aacDecoder_ParseExplicitMpsAndSbr\n");
 
   /* get the remaining bits of this frame */
   bitCnt = transportDec_GetAuBitsRemaining(self->hInput, 0);
@@ -2517,12 +2519,14 @@ LINKSPEC_CPP AAC_DECODER_ERROR CAacDecoder_DecodeFrame(
   while ((type != ID_END) && (!(flags & (AACDEC_CONCEAL | AACDEC_FLUSH))) &&
          self->frameOK) {
     int el_channels;
+    fprintf(stdout,"Enter element\n");
 
     if (!(self->flags[0] &
           (AC_USAC | AC_RSVD50 | AC_RSV603DA | AC_ELD | AC_SCALABLE | AC_ER)))
       type = (MP4_ELEMENT_ID)FDKreadBits(bs, 3);
     else
       type = self->elements[element_count];
+      fprintf(stdout,"Element type = %i\n",type);
 
     if ((self->flags[streamIndex] & (AC_USAC | AC_RSVD50) &&
          element_count == 0) ||
