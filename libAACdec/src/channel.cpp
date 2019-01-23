@@ -416,6 +416,7 @@ AAC_DECODER_ERROR CChannelElement_Read(
     const UINT flags, const UINT elFlags, const UINT frame_length,
     const UCHAR numberOfChannels, const SCHAR epConfig,
     HANDLE_TRANSPORTDEC pTpDec) {
+  fprintf(stdout,"CChannelElement_Read\n");
   AAC_DECODER_ERROR error = AAC_DEC_OK;
   const element_list_t *list;
   int i, ch, decision_bit;
