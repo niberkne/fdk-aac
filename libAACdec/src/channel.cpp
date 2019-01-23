@@ -416,6 +416,7 @@ AAC_DECODER_ERROR CChannelElement_Read(
     const UINT flags, const UINT elFlags, const UINT frame_length,
     const UCHAR numberOfChannels, const SCHAR epConfig,
     HANDLE_TRANSPORTDEC pTpDec) {
+  fprintf(stdout,"CChannelElement_Read\n");
   AAC_DECODER_ERROR error = AAC_DEC_OK;
   const element_list_t *list;
   int i, ch, decision_bit;
@@ -466,6 +467,7 @@ AAC_DECODER_ERROR CChannelElement_Read(
   ch = 0;
   decision_bit = 0;
   do {
+    fprintf(stdout,"Channel Read Element ID = %i\n",list->id[i]);
     switch (list->id[i]) {
       case element_instance_tag:
         pAacDecoderChannelInfo[0]->ElementInstanceTag = FDKreadBits(hBs, 4);
