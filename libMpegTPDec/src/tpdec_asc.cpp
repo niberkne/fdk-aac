@@ -99,7 +99,6 @@ amm-info@iis.fraunhofer.de
    Description:
 
 *******************************************************************************/
-#include <stdio.h>
 #include "tpdec_lib.h"
 #include "tp_data.h"
 
@@ -270,7 +269,6 @@ void CProgramConfig_Read(CProgramConfig *pPce, HANDLE_FDK_BITSTREAM bs,
                          UINT alignmentAnchor) {
   int i, err = 0;
   int commentBytes;
-  fprintf(stdout,"Enter CProgramConfig_Read\n");
 
   pPce->NumEffectiveChannels = 0;
   pPce->NumChannels = 0;
@@ -442,7 +440,6 @@ int CProgramConfig_Compare(const CProgramConfig *const pPce1,
 
 void CProgramConfig_GetDefault(CProgramConfig *pPce, const UINT channelConfig) {
   FDK_ASSERT(pPce != NULL);
-  fprintf(stdout,"Enter CProgramConfig_GetDefault\n");
 
   /* Init PCE */
   CProgramConfig_Init(pPce);
@@ -1221,7 +1218,6 @@ static TRANSPORTDEC_ERROR GaSpecificConfig_Parse(CSGaSpecificConfig *self,
                                                  HANDLE_FDK_BITSTREAM bs,
                                                  UINT ascStartAnchor) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
-  fprintf(stdout,"Enter GaSpecificConfig_Parse\n");
 
   self->m_frameLengthFlag = FDKreadBits(bs, 1);
 
@@ -1527,7 +1523,6 @@ static TRANSPORTDEC_ERROR extElementConfig(CSUsacExtElementConfig *extElement,
                                            const int subStreamIndex,
                                            const AUDIO_OBJECT_TYPE aot) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
-  fprintf(stdout,"Enter extElementConfig\n");
 
   USAC_EXT_ELEMENT_TYPE usacExtElementType =
       (USAC_EXT_ELEMENT_TYPE)escapedValue(hBs, 4, 8, 16);
@@ -1609,7 +1604,6 @@ static TRANSPORTDEC_ERROR configExtension(CSUsacConfig *usc,
                                           HANDLE_FDK_BITSTREAM hBs,
                                           const CSTpCallBacks *cb) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
-  fprintf(stdout,"Enter configExtension\n");
 
   int numConfigExtensions;
   CONFIG_EXT_ID usacConfigExtType;
@@ -1674,7 +1668,6 @@ static TRANSPORTDEC_ERROR UsacRsv60DecoderConfig_Parse(
     const CSTpCallBacks *cb) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
   CSUsacConfig *usc = &asc->m_sc.m_usacConfig;
-  fprintf(stdout,"Enter UsacRsv60DecoderConfig_Parse\n");
   int i, numberOfElements;
   int channelElementIdx =
       0; /* index for elements which contain audio channels (sce, cpe, lfe) */
@@ -1880,7 +1873,6 @@ static TRANSPORTDEC_ERROR UsacRsv60DecoderConfig_Parse(
 static TRANSPORTDEC_ERROR UsacConfig_SetCoreSbrFrameLengthIndex(
     CSAudioSpecificConfig *asc, int coreSbrFrameLengthIndex) {
   int sbrRatioIndex_val;
-  fprintf(stdout,"Enter UsacConfig_SetCoreSbrFrameLengthIndex\n");
 
   if (coreSbrFrameLengthIndex > 4) {
     return TRANSPORTDEC_PARSE_ERROR; /* reserved values */
@@ -1922,7 +1914,6 @@ static TRANSPORTDEC_ERROR UsacConfig_Parse(CSAudioSpecificConfig *asc,
                                            CSTpCallBacks *cb) {
   int usacSamplingFrequency, channelConfigurationIndex, coreSbrFrameLengthIndex;
   TRANSPORTDEC_ERROR err = TRANSPORTDEC_OK;
-  fprintf(stdout,"Enter UsacConfig_Parse\n");
 
   /* Start bit position of usacConfig */
   INT nbits = (INT)FDKgetValidBits(hBs);
@@ -1981,7 +1972,6 @@ static TRANSPORTDEC_ERROR UsacConfig_Parse(CSAudioSpecificConfig *asc,
 static TRANSPORTDEC_ERROR AudioSpecificConfig_ExtensionParse(
     CSAudioSpecificConfig *self, HANDLE_FDK_BITSTREAM bs, CSTpCallBacks *cb) {
   TP_ASC_EXTENSION_ID lastAscExt, ascExtId = ASCEXT_UNKOWN;
-  fprintf(stdout,"Enter AudioSpecificConfig_ExtensionParse\n");
   INT bitsAvailable = (INT)FDKgetValidBits(bs);
 
   while (bitsAvailable >= 11) {
@@ -2097,7 +2087,6 @@ TRANSPORTDEC_ERROR AudioSpecificConfig_Parse(
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
   UINT ascStartAnchor = FDKgetValidBits(bs);
   int frameLengthFlag = -1;
-  fprintf(stdout,"Enter AudioSpecificConfig_Parse\n");
   AudioSpecificConfig_Init(self);
 
   self->configMode = configMode;
@@ -2381,7 +2370,6 @@ TRANSPORTDEC_ERROR Drm_xHEAACStaticConfig(
           asc, coreSbrFrameLengthIndexDrm + 1) != TRANSPORTDEC_OK) {
     return TRANSPORTDEC_PARSE_ERROR;
   }
-  fprintf(stdout,"Enter Drm_xHEAACStaticConfig\n");
 
   asc->m_channelConfiguration = (audioMode) ? 2 : 1;
 
@@ -2410,7 +2398,6 @@ TRANSPORTDEC_ERROR DrmRawSdcAudioConfig_Parse(
     CSTpCallBacks *cb, /* use cb == NULL to signal config check only mode */
     UCHAR configMode, UCHAR configChanged) {
   TRANSPORTDEC_ERROR ErrorStatus = TRANSPORTDEC_OK;
-  fprintf(stdout,"Enter DrmRawSdcAudioConfig_Parse\n");
 
   AudioSpecificConfig_Init(self);
 

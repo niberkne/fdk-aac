@@ -103,6 +103,7 @@ amm-info@iis.fraunhofer.de
 #ifndef FDK_BITSTREAM_H
 #define FDK_BITSTREAM_H
 
+#include <stdio.h>
 #include "FDK_bitbuffer.h"
 #include "machine_type.h"
 
@@ -220,6 +221,7 @@ FDK_INLINE UINT FDKreadBits(HANDLE_FDK_BITSTREAM hBitStream,
   }
 
   hBitStream->BitsInCache -= numberOfBits;
+  fprintf(stdout,"FDKreadBits(%i) = %i\n",numberOfBits,(bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) & BitMask[numberOfBits]);
 
   return (bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) &
          BitMask[numberOfBits];
@@ -232,6 +234,7 @@ FDK_INLINE UINT FDKreadBit(HANDLE_FDK_BITSTREAM hBitStream) {
     return hBitStream->CacheWord >> 31;
   }
   hBitStream->BitsInCache--;
+  fprintf(stdout,"FDKreadBit = %i\n",(hBitStream->CacheWord >> hBitStream->BitsInCache) & 1);
 
   return (hBitStream->CacheWord >> hBitStream->BitsInCache) & 1;
 }
@@ -259,6 +262,7 @@ FDK_INLINE UINT FDKread2Bits(HANDLE_FDK_BITSTREAM hBitStream) {
   }
 
   hBitStream->BitsInCache -= 2;
+  fprintf(stdout,"FDKread2Bits = %i\n",(bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) & 0x3);
 
   return (bits | (hBitStream->CacheWord >> hBitStream->BitsInCache)) & 0x3;
 }

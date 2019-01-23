@@ -195,8 +195,8 @@ LINKSPEC_CPP AAC_DECODER_ERROR aacDecoder_ConfigRaw(HANDLE_AACDECODER self,
   AAC_DECODER_ERROR err = AAC_DEC_OK;
   TRANSPORTDEC_ERROR errTp;
   UINT layer, nrOfLayers = self->nrOfLayers;
-
-  fprintf(stdout,"Enter aacDecoder_ConfigRaw\n");
+  fprintf(stdout,"aacDecoder_ConfigRaw\n");
+ 
   for (layer = 0; layer < nrOfLayers; layer++) {
     if (length[layer] > 0) {
       errTp = transportDec_OutOfBandConfig(self->hInput, conf[layer],
